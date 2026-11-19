@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Local voice dictation with tone rewrite | Ryan Reale AI Tool Portfolio</title>
+<meta name="description" content="Ryan Reale AI Tool Portfolio: AI tools and automations for commercial real estate and finance workflows.">
+<meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand" href="../index.html">Ryan Reale <span>AI Tool Portfolio</span></a>
+<nav><a href="../index.html#projects">Projects</a><a href="../index.html#approach">Approach</a><a href="https://github.com/RSR71">GitHub</a></nav>
+</div></header>
+
+<div class="phead"><div class="wrap">
+<a class="back" href="../index.html#projects">&larr; All projects</a>
+<p class="eyebrow">April 2026</p>
+<h1>Local voice dictation with tone rewrite</h1>
+<p class="lead">Record in the browser, transcribe on your own machine, and get the text back rewritten as casual, formal, technical, friendly or concise.</p>
+
+<div class="tags"><span class="tag">FastAPI</span><span class="tag">faster-whisper (base model, CPU)</span><span class="tag">Ollama running llama3.2</span><span class="tag">Browser MediaRecorder front end</span></div>
+<div class="statband"><div><b>5</b><span>rewrite tones</span></div><div><b>2</b><span>local models: speech to text, then rewrite</span></div><div><b>0</b><span>cloud calls or API keys</span></div><div><b>830</b><span>lines of code, approximately</span></div></div>
+</div></div>
+<div class="wrap narrow"><div class="prose">
+<h2>The problem</h2>
+<p>Dictation is faster than typing, but raw transcripts are full of filler and rarely match the tone the message needs. Cloud dictation tools also send audio off the machine, which rules them out for confidential work.</p>
+<h2>How it works</h2>
+<ol class="flow"><li>Record in browser</li><li class="arr" aria-hidden="true">&rarr;</li><li>Whisper transcribes locally</li><li class="arr" aria-hidden="true">&rarr;</li><li>Local LLM rewrites in chosen tone</li><li class="arr" aria-hidden="true">&rarr;</li><li>Copy to clipboard</li></ol>
+<ul>
+<li><b>Fully local.</b> Speech recognition runs through faster-whisper on the CPU, and the rewrite runs through a local Ollama model.</li>
+<li><b>Five tones.</b> Casual, formal, technical, friendly and concise, each with its own rewrite instruction.</li>
+<li><b>Fails safe.</b> If the language model is unavailable, the app returns the raw transcript instead of an error. A health endpoint reports the status of both models.</li>
+</ul>
+</div></div>
+<div class="wrap narrow"><div class="pnav">
+<a href="condo-tour.html"><small>&larr; Previous</small><b>Floor plan to 3D walkthrough</b></a>
+<a class="next" href="leaseiq.html"><small>Next &rarr;</small><b>LeaseIQ: AI lease abstraction</b></a>
+</div></div>
+
+<footer><div class="wrap"><span>Ryan Reale AI Tool Portfolio</span><span>Demo data is fictional. Names, addresses and figures from real engagements have been removed.</span></div></footer>
+<script>
+(function(){var els=document.querySelectorAll('.rise');if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+els.forEach(function(e,i){e.style.transitionDelay=(Math.min(i%4,3)*60)+'ms';io.observe(e)})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bank statement to budget workbook | Ryan Reale AI Tool Portfolio</title>
+<meta name="description" content="Ryan Reale AI Tool Portfolio: AI tools and automations for commercial real estate and finance workflows.">
+<meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand" href="../index.html">Ryan Reale <span>AI Tool Portfolio</span></a>
+<nav><a href="../index.html#projects">Projects</a><a href="../index.html#approach">Approach</a><a href="https://github.com/RSR71">GitHub</a></nav>
+</div></header>
+
+<div class="phead"><div class="wrap">
+<a class="back" href="../index.html#projects">&larr; All projects</a>
+<p class="eyebrow">2026</p>
+<h1>Bank statement to budget workbook</h1>
+<p class="lead">A cash flow reporting system built for a private client, driven by bank statement PDFs. Nothing is guessed: statements must reconcile, uncertain transactions go to a review queue, and an auditor agent has to clear the month before a summary is drafted.</p>
+
+<div class="tags"><span class="tag">Python</span><span class="tag">pdfplumber for statement parsing</span><span class="tag">XlsxWriter for the workbook</span><span class="tag">YAML and CSV configuration</span><span class="tag">Claude sub-agents for month-end review</span></div>
+<div class="statband"><div><b>4,250</b><span>lines of Python in the pipeline, approximately</span></div><div><b>297</b><span>merchant classification rules</span></div><div><b>24</b><span>categories, with 85 subcategories</span></div><div><b>5</b><span>review agents in the month-end run</span></div></div>
+</div></div>
+<div class="wrap narrow"><div class="prose">
+<h2>The problem</h2>
+<p>The client's accounts ran across credit cards, chequing and a loan facility, with statements arriving only as PDFs. Spreadsheets kept by hand drifted from the bank's numbers, and there was no reliable view of where the money went.</p>
+<h2>How it works</h2>
+<ol class="flow"><li>Statement PDFs</li><li class="arr" aria-hidden="true">&rarr;</li><li>Parse and reconcile</li><li class="arr" aria-hidden="true">&rarr;</li><li>Classify by rule</li><li class="arr" aria-hidden="true">&rarr;</li><li>Review queue</li><li class="arr" aria-hidden="true">&rarr;</li><li>Rebuild workbook</li></ol>
+<ul>
+<li><b>Reconciliation guard.</b> The parser sums the transactions it extracted and compares them with the control totals printed on the statement. A statement that does not tie out is flagged, not used silently.</li>
+<li><b>First match wins.</b> About 300 merchant rules, scoped by account type, assign each transaction to one of 24 categories and 85 subcategories. Transfers between the client's own accounts are detected and kept out of spending.</li>
+<li><b>Unknowns are not guessed.</b> Anything the rules cannot place goes to a review queue. Manual decisions are stored per transaction and re-applied on every run.</li>
+<li><b>Rebuilt from scratch.</b> The workbook is regenerated on every run, so it can never drift from the statements.</li>
+<li><b>Month-end review by agents.</b> Five sub-agents (bookkeeper, property manager, market analyst, records clerk, auditor) review the month. The auditor must return a clear verdict before a summary email is drafted.</li>
+</ul>
+<h2>Property calculations</h2>
+<p>A separate module models rental property returns, including Canadian semi-annual mortgage compounding, XIRR and land transfer tax, covered by 12 unit tests.</p>
+<p class="note">This was client work, so no data, screenshots or source code are published. The description above covers the design only.</p>
+</div></div>
+<div class="wrap narrow"><div class="pnav">
+<a href="cre-brief.html"><small>&larr; Previous</small><b>Daily commercial real estate brief</b></a>
+<a class="next" href="condo-tour.html"><small>Next &rarr;</small><b>Floor plan to 3D walkthrough</b></a>
+</div></div>
+
+<footer><div class="wrap"><span>Ryan Reale AI Tool Portfolio</span><span>Demo data is fictional. Names, addresses and figures from real engagements have been removed.</span></div></footer>
+<script>
+(function(){var els=document.querySelectorAll('.rise');if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+els.forEach(function(e,i){e.style.transitionDelay=(Math.min(i%4,3)*60)+'ms';io.observe(e)})})();
+</script>
+</body>
+</html>

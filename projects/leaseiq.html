@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LeaseIQ: AI lease abstraction | Ryan Reale AI Tool Portfolio</title>
+<meta name="description" content="Ryan Reale AI Tool Portfolio: AI tools and automations for commercial real estate and finance workflows.">
+<meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand" href="../index.html">Ryan Reale <span>AI Tool Portfolio</span></a>
+<nav><a href="../index.html#projects">Projects</a><a href="../index.html#approach">Approach</a><a href="https://github.com/RSR71">GitHub</a></nav>
+</div></header>
+
+<div class="phead"><div class="wrap">
+<a class="back" href="../index.html#projects">&larr; All projects</a>
+<p class="eyebrow">April 2026</p>
+<h1>LeaseIQ: AI lease abstraction</h1>
+<p class="lead">A working prototype of a lease abstraction service for commercial real estate owners. The model reads the lease, the server checks and scores the result, and a reviewer approves it.</p>
+<div class="btns"><a class="btn" href="../demos/leaseiq/ops.html">Open the ops console demo</a><a class="btn alt" href="../demos/leaseiq/client.html">Open the client portal demo</a></div>
+<div class="tags"><span class="tag">Claude Sonnet 4 through the Anthropic SDK</span><span class="tag">Node.js and Express</span><span class="tag">pdf-parse for page-marked text</span><span class="tag">Plain HTML, CSS and JavaScript front ends</span></div>
+<div class="statband"><div><b>17</b><span>lease fields extracted by the model</span></div><div><b>3</b><span>further fields calculated by the server</span></div><div><b>6</b><span>risk alert rules</span></div><div><b>2</b><span>front ends: ops console and client portal</span></div></div>
+</div></div>
+<div class="wrap narrow"><div class="prose">
+<h2>The problem</h2>
+<p>Abstracting a commercial lease by hand takes hours, and the dates that matter most (expiry, renewal notice windows, guarantee burn-off) are the ones that get missed. Owners need the key terms in one place, with a way to check each one against the document.</p>
+<h2>How it works</h2>
+<ol class="flow"><li>Lease PDF uploaded</li><li class="arr" aria-hidden="true">&rarr;</li><li>Text split by page</li><li class="arr" aria-hidden="true">&rarr;</li><li>Claude extracts 17 fields</li><li class="arr" aria-hidden="true">&rarr;</li><li>Server derives 3 more and runs risk rules</li><li class="arr" aria-hidden="true">&rarr;</li><li>Reviewer approves</li><li class="arr" aria-hidden="true">&rarr;</li><li>Client portal</li></ol>
+<ul>
+<li><b>Structured output, every time.</b> The model is forced to answer through a single tool call with a fixed schema, so the response always contains all 17 fields in the same shape.</li>
+<li><b>Every field is checkable.</b> Each value comes back with a confidence score from 0 to 100, the page it was found on and a quoted citation from the lease.</li>
+<li><b>Arithmetic stays out of the model.</b> Remaining term, annual rent and rent per square foot are calculated by the server from the extracted values.</li>
+<li><b>Risk rules are explicit.</b> Six rules raise alerts with a High, Medium or Low severity: expiry inside 6 months, expiry inside 2 years, renewal notice deadline, no renewal options, no personal guarantee, and a guarantee that ends before the lease does.</li>
+<li><b>A person approves the result.</b> The ops console has a QA queue. Low-confidence fields must be resolved before a lease can be approved and released to the client.</li>
+</ul>
+<figure class="wide"><img src="../assets/img/leaseiq-ops.png" alt="LeaseIQ operations console showing the lease pipeline and QA status"><figcaption>Operations console: pipeline, QA queue and upcoming alerts. All names and figures are fictional demo data.</figcaption></figure>
+<figure class="wide"><img src="../assets/img/leaseiq-client.png" alt="LeaseIQ client portal showing a lease portfolio with expiry tracking"><figcaption>Client portal: portfolio view with lease health and expiry tracking. Fictional demo data.</figcaption></figure>
+<p class="note">The demos on this site run on built-in sample data. Live extraction needs the server and an API key, so the upload step is not active here.</p>
+</div></div>
+<div class="wrap narrow"><div class="pnav">
+<a href="dictation.html"><small>&larr; Previous</small><b>Local voice dictation with tone rewrite</b></a>
+<a class="next" href="property-portfolio.html"><small>Next &rarr;</small><b>Rental property portfolio dashboard</b></a>
+</div></div>
+
+<footer><div class="wrap"><span>Ryan Reale AI Tool Portfolio</span><span>Demo data is fictional. Names, addresses and figures from real engagements have been removed.</span></div></footer>
+<script>
+(function(){var els=document.querySelectorAll('.rise');if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+els.forEach(function(e,i){e.style.transitionDelay=(Math.min(i%4,3)*60)+'ms';io.observe(e)})})();
+</script>
+</body>
+</html>

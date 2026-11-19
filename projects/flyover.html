@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Industrial site 3D fly-over | Ryan Reale AI Tool Portfolio</title>
+<meta name="description" content="Ryan Reale AI Tool Portfolio: AI tools and automations for commercial real estate and finance workflows.">
+<meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand" href="../index.html">Ryan Reale <span>AI Tool Portfolio</span></a>
+<nav><a href="../index.html#projects">Projects</a><a href="../index.html#approach">Approach</a><a href="https://github.com/RSR71">GitHub</a></nav>
+</div></header>
+
+<div class="phead"><div class="wrap">
+<a class="back" href="../index.html#projects">&larr; All projects</a>
+<p class="eyebrow">October 2026</p>
+<h1>Industrial site 3D fly-over</h1>
+<p class="lead">A 23-second animated sequence made for a site selection presentation. It places a to-scale building model on satellite imagery, orbits it, then removes the roof to reveal a test-fit layout.</p>
+<div class="btns"><a class="btn" href="../demos/flyover/index.html">Play the fly-over</a></div>
+<div class="tags"><span class="tag">three.js r128</span><span class="tag">Canvas-generated facade, roof and paving textures</span><span class="tag">Satellite imagery tiles with feathered blending</span><span class="tag">Shadow mapping, fog and ACES tone mapping</span></div>
+<div class="statband"><div><b>23</b><span>second timeline in three chapters</span></div><div><b>3</b><span>satellite zoom levels blended into one ground plane</span></div><div><b>10</b><span>zones in the concept layout</span></div><div><b>1</b><span>self-contained HTML file</span></div></div>
+</div></div>
+<div class="wrap narrow"><div class="prose">
+<h2>The problem</h2>
+<p>A site selection deck compared several industrial buildings for an occupier with a specialised production process. Plans and brochures did not show how the process would sit inside each building, or how the building related to its truck court and neighbours.</p>
+<h2>How it works</h2>
+<ol class="flow"><li>Building dimensions</li><li class="arr" aria-hidden="true">&rarr;</li><li>Satellite imagery ground</li><li class="arr" aria-hidden="true">&rarr;</li><li>Procedural 3D model</li><li class="arr" aria-hidden="true">&rarr;</li><li>Scripted camera path</li><li class="arr" aria-hidden="true">&rarr;</li><li>Roof-off layout reveal</li></ol>
+<ul>
+<li><b>To-scale model from a few numbers.</b> Length, depth, clear height, dock side and door count generate the building, including dock doors, glazing, trailers and the truck court.</li>
+<li><b>Three imagery layers, one ground.</b> Wide, mid and close satellite images are stacked and feathered at the edges so the camera can move from regional context down to the roof without a visible seam.</li>
+<li><b>Textures drawn in code.</b> Facades, roofs and paving are painted on canvases at run time, so the file carries no texture assets beyond the ground imagery.</li>
+<li><b>A scripted story.</b> The camera path has three chapters: location, building, layout. Viewers can pause or jump between chapters.</li>
+<li><b>Deterministic frames.</b> A capture mode renders any moment of the timeline on demand, which was used to export the sequence as an animation.</li>
+</ul>
+<div class="shots wide">
+<img src="../assets/img/flyover-location.png" alt="Top-down view of the site in context">
+<img src="../assets/img/flyover-building.png" alt="Low orbit view of the building and truck court">
+<img src="../assets/img/flyover-layout.png" alt="Roof removed, showing the concept layout zones">
+</div>
+<p class="note">The address, owner, tenant and building statistics have been removed, and the wide-area imagery has been blurred. Satellite imagery: Esri, Maxar, Earthstar Geographics.</p>
+</div></div>
+<div class="wrap narrow"><div class="pnav">
+<a href="property-portfolio.html"><small>&larr; Previous</small><b>Rental property portfolio dashboard</b></a>
+<a class="next" href="cre-brief.html"><small>Next &rarr;</small><b>Daily commercial real estate brief</b></a>
+</div></div>
+
+<footer><div class="wrap"><span>Ryan Reale AI Tool Portfolio</span><span>Demo data is fictional. Names, addresses and figures from real engagements have been removed.</span></div></footer>
+<script>
+(function(){var els=document.querySelectorAll('.rise');if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+els.forEach(function(e,i){e.style.transitionDelay=(Math.min(i%4,3)*60)+'ms';io.observe(e)})})();
+</script>
+</body>
+</html>

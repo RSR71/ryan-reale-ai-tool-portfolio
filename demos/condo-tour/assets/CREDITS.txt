@@ -1,0 +1,4 @@
+All files in this folder are from Poly Haven (https://polyhaven.com) and are licensed CC0 (public domain).
+Sky: kloofendal_48d_partly_cloudy_puresky
+Textures: laminate_floor_02, fabric_leather_01, fabric_pattern_07, natural_walnut_veneer, grey_oak_veneer_01, white_maple_veneer, rough_linen, wool_boucle, knitted_fleece, cotton_jersey
+Models: modern_arm_chair_01, metal_stool_01, modern_wooden_cabinet, industrial_coffee_table

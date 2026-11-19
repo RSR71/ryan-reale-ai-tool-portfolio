@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeaseIQ, Maple Grove Capital</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#2E5FA3;--primary-l:#EBF0F9;--primary-d:#244d8a;
+  --success:#1D9E75;--success-l:#E6F6F1;
+  --warn:#BA7517;--warn-l:#FEF3DC;
+  --danger:#E24B4A;--danger-l:#FDEAEA;
+  --bg:#F8F9FB;--card:#FFFFFF;--border:#E2E4E9;
+  --text:#1A1A2E;--text2:#6B7280;
+  --font:system-ui,-apple-system,sans-serif
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
+
+/* ── TOP NAV ── */
+.topnav{
+  height:60px;background:#fff;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;position:sticky;top:0;z-index:100;
+}
+.nav-logo{display:flex;align-items:center;gap:9px}
+.lmark{width:30px;height:30px;background:var(--primary);border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:13px;flex-shrink:0}
+.ltxt{font-size:17px;font-weight:700;color:var(--text)}
+.ltxt span{color:var(--primary)}
+.nav-links{display:flex;gap:4px;align-items:center}
+.nl{padding:8px 14px;border-radius:7px;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;transition:background .12s,color .12s;user-select:none;border:none;background:none;font-family:var(--font)}
+.nl:hover{background:var(--bg);color:var(--text)}
+.nl.active{background:var(--primary-l);color:var(--primary);font-weight:600}
+.nav-right{display:flex;align-items:center;gap:12px}
+.co-name{font-size:13px;font-weight:600;color:var(--text)}
+.co-sub{font-size:11px;color:var(--text2)}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--primary);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* ── PAGE LAYOUT ── */
+.page-wrap{max-width:1100px;margin:0 auto;padding:32px 28px}
+.page{display:none}.page.active{display:block}
+
+/* ── COMPONENTS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:opacity .12s;font-family:var(--font)}
+.btn:hover{opacity:.87}
+.btn-p{background:var(--primary);color:#fff}
+.btn-s{background:#fff;color:var(--primary);border:1px solid var(--primary)}
+.btn-sm{padding:6px 13px;font-size:12px}
+.btn-xs{padding:4px 10px;font-size:11px}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:22px}
+
+.bdg{display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;font-size:11px;font-weight:600;white-space:nowrap}
+.b-green{background:var(--success-l);color:#0c7a5a}
+.b-amber{background:var(--warn-l);color:#8f5a10}
+.b-red{background:var(--danger-l);color:#c03232}
+.b-blue{background:var(--primary-l);color:#1e4c8f}
+.b-gray{background:#f3f4f6;color:#555}
+.b-paid{background:var(--success-l);color:#0c7a5a}
+.b-proc{background:var(--primary-l);color:#1e4c8f}
+
+/* ── WELCOME BANNER ── */
+.welcome{
+  background:var(--primary);border-radius:12px;
+  padding:22px 28px;color:#fff;margin-bottom:24px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.wb-title{font-size:18px;font-weight:700;margin-bottom:4px}
+.wb-sub{font-size:13px;opacity:.8}
+.alert-chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:10px 16px;text-align:center}
+.alert-chip .acn{font-size:24px;font-weight:800}
+.alert-chip .acl{font-size:11px;opacity:.8;margin-top:1px}
+
+/* ── STAT CARDS ── */
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px}
+.sc{background:#fff;border:1px solid var(--border);border-radius:10px;padding:20px}
+.sc .scl{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
+.sc .scv{font-size:28px;font-weight:800;color:var(--text);line-height:1}
+.sc .scs{font-size:12px;color:var(--text2);margin-top:5px}
+
+/* ── LEASE CARDS ── */
+.lease-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.lease-card{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:box-shadow .15s}
+.lease-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.07)}
+.lc-body{padding:18px 20px}
+.lc-addr{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px}
+.lc-city{font-size:12px;color:var(--text2);margin-bottom:12px}
+.lc-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.lc-lbl{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.3px}
+.lc-val{font-size:12px;font-weight:600;color:var(--text)}
+.status-bar-wrap{margin:14px 0 16px}
+.status-bar-lbl{display:flex;justify-content:space-between;font-size:11px;color:var(--text2);margin-bottom:5px}
+.status-bar-bg{height:6px;background:#eee;border-radius:99px;overflow:hidden}
+.status-bar-fill{height:100%;border-radius:99px}
+.lc-foot{padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end}
+
+/* ── SECTION HEADERS ── */
+.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px}
+.ph h1{font-size:22px;font-weight:700}
+.ph p{font-size:13px;color:var(--text2);margin-top:3px}
+.section-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:14px}
+
+/* ── LEASE DETAIL ── */
+.detail-grid{display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start}
+.field-group{margin-bottom:22px}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fi{}
+.fi-lbl{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.3px;margin-bottom:3px}
+.fi-val{font-size:14px;color:var(--text);font-weight:500}
+.fi-val.big{font-size:18px;font-weight:700;color:var(--primary)}
+.fi-val.hl{color:var(--warn);font-weight:700}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text2);cursor:pointer;margin-bottom:18px;font-weight:500}
+.back-btn:hover{color:var(--primary)}
+
+/* ── RISK CARDS ── */
+.risk-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:14px}
+.rc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:10px}
+.rc-title{font-size:13px;font-weight:700;color:var(--text)}
+.rc-body{font-size:13px;color:var(--text2);line-height:1.55}
+.rc-countdown{margin-top:10px;padding:8px 12px;background:var(--bg);border-radius:6px;font-size:12px;color:var(--text2)}
+.rc-countdown strong{color:var(--text)}
+.rc-action{margin-top:10px;padding:8px 12px;background:var(--primary-l);border-radius:6px;font-size:12px;color:var(--primary);font-weight:600}
+
+/* ── ALERTS PAGE ── */
+.alert-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:14px}
+.ac-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:12px}
+.ac-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px}
+.ac-addr{font-size:12px;color:var(--text2)}
+.ac-body{font-size:13px;color:var(--text2);line-height:1.55;margin-bottom:12px}
+.ac-action{padding:10px 14px;background:var(--bg);border-radius:7px;font-size:13px;color:var(--text);border:1px solid var(--border)}
+.ac-action strong{color:var(--primary)}
+.upcoming-item{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border)}
+.upcoming-item:last-child{border-bottom:none}
+.ui-left{}
+.ui-title{font-size:13px;font-weight:600;color:var(--text)}
+.ui-sub{font-size:12px;color:var(--text2);margin-top:2px}
+.ui-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.ui-days{font-size:12px;color:var(--text2)}
+
+/* ── CALENDAR ── */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.cal-dh{background:var(--bg);padding:9px;text-align:center;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.4px}
+.cal-cell{background:#fff;min-height:88px;padding:8px;position:relative;cursor:default}
+.cal-cell.has-event{cursor:pointer}
+.cal-cell:hover.has-event{background:var(--bg)}
+.cal-dn{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:4px;display:flex;align-items:center;gap:4px}
+.cal-dn.today{width:22px;height:22px;background:var(--primary);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px}
+.cal-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
+.cal-dot-r{background:var(--danger)}
+.cal-dot-a{background:var(--warn)}
+.cal-empty{background:#f9fafb}
+.cal-evt-label{font-size:10px;font-weight:600;margin-top:2px;padding:2px 5px;border-radius:4px}
+.cal-evt-r{background:var(--danger-l);color:#c03232}
+.cal-evt-a{background:var(--warn-l);color:#8f5a10}
+
+/* TOOLTIP */
+.cal-tooltip{
+  position:fixed;background:#1a2332;color:#fff;border-radius:8px;
+  padding:10px 14px;font-size:12px;z-index:999;pointer-events:none;
+  opacity:0;transition:opacity .15s;max-width:220px;line-height:1.4;
+  box-shadow:0 4px 16px rgba(0,0,0,.2)
+}
+.cal-tooltip.visible{opacity:1}
+.cal-tt-title{font-weight:700;margin-bottom:3px}
+.cal-tt-addr{opacity:.7;font-size:11px}
+
+/* ── DOCUMENTS TABLE ── */
+.tw{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+thead th{text-align:left;padding:10px 18px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--text2);background:var(--bg);border-bottom:1px solid var(--border)}
+tbody tr{border-bottom:1px solid #f0f1f3}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--bg)}
+tbody td{padding:13px 18px;font-size:13px;color:var(--text2);vertical-align:middle}
+.tdp{font-weight:600;color:var(--text)}
+
+/* ── BILLING ── */
+.plan-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:24px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between}
+.pc-left{}
+.pc-badge{background:var(--primary-l);color:var(--primary);font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;display:inline-block;margin-bottom:8px}
+.pc-plan{font-size:18px;font-weight:700;color:var(--text)}
+.pc-price{font-size:28px;font-weight:800;color:var(--primary);margin-top:4px}
+.pc-price span{font-size:14px;font-weight:500;color:var(--text2)}
+.pc-next{font-size:12px;color:var(--text2);margin-top:6px}
+.pc-features{display:flex;flex-direction:column;gap:6px}
+.pc-feat{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2)}
+.pc-feat svg{color:var(--success);flex-shrink:0}
+
+/* ── UPLOAD PAGE ── */
+.dz{border:2px dashed var(--border);border-radius:10px;padding:44px 24px;text-align:center;background:#fff;transition:border-color .15s,background .15s;cursor:pointer}
+.dz:hover{border-color:var(--primary);background:var(--primary-l)}
+.dz.drag{border-color:var(--primary);background:var(--primary-l)}
+.dz-ico{width:44px;height:44px;margin:0 auto 12px;color:var(--primary)}
+.dz-ttl{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
+.dz-sub{font-size:12px;color:var(--text2)}
+.dz-file{margin-top:12px;font-size:12px;color:var(--primary);font-weight:600}
+.upl-form{background:#fff;border:1px solid var(--border);border-radius:10px;padding:22px;margin-top:16px}
+.fgrp{margin-bottom:14px}.fgrp:last-child{margin-bottom:0}
+.flbl{display:block;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.finp{width:100%;padding:9px 12px;font-size:13px;border:1px solid var(--border);border-radius:7px;font-family:var(--font);color:var(--text);background:#fff}
+.finp:focus{outline:none;border-color:var(--primary)}
+.pw{display:none;margin-top:16px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:20px}
+.pw.active{display:block}
+.pstep{font-size:13px;font-weight:600;color:var(--text);margin-bottom:10px}
+.pbbg{height:8px;background:#eee;border-radius:99px;overflow:hidden}
+.pbf{height:100%;background:var(--primary);border-radius:99px;width:0;transition:width .5s,background .3s}
+.ppct{font-size:11px;color:var(--text2);margin-top:6px;text-align:right}
+.sb2{display:none;margin-top:16px;background:var(--success-l);border:1px solid var(--success);border-radius:10px;padding:20px}
+.sb2.active{display:block}
+.sbt{font-size:14px;font-weight:700;color:#0c7a5a;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.sbs{font-size:13px;color:#0c7a5a;opacity:.85}
+.sb-actions{margin-top:12px;display:flex;gap:8px}
+.b-review{background:var(--warn-l);color:#8f5a10}
+.b-needs{background:var(--danger-l);color:#c03232}
+.b-extract{background:var(--primary-l);color:#1e4c8f}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:200;animation:modalFadeIn .15s}
+@keyframes modalFadeIn{from{opacity:0}to{opacity:1}}
+.modal-card{background:#fff;border-radius:12px;width:480px;max-width:90vw;box-shadow:0 8px 32px rgba(0,0,0,.15);animation:modalSlideUp .2s}
+@keyframes modalSlideUp{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border)}
+.modal-header h3{font-size:16px;font-weight:700}
+.modal-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--text2);line-height:1}
+.modal-close:hover{color:var(--text)}
+.modal-body{padding:20px 22px}
+.modal-body textarea.finp{resize:vertical;min-height:80px}
+.modal-footer{padding:14px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
+
+/* ── TOAST ── */
+.toast{position:fixed;top:72px;right:24px;background:#1a2332;color:#fff;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,.2);transform:translateY(-20px);opacity:0;transition:transform .25s,opacity .25s;z-index:300;pointer-events:none;max-width:360px}
+.toast.visible{transform:translateY(0);opacity:1}
+
+/* ── CLICKABLE ENHANCEMENTS ── */
+.alert-chip.clickable{cursor:pointer;transition:background .15s}
+.alert-chip.clickable:hover{background:rgba(255,255,255,.25)}
+.sc.clickable{cursor:pointer;transition:box-shadow .15s}
+.sc.clickable:hover{box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.upcoming-item.clickable{cursor:pointer;transition:background .12s}
+.upcoming-item.clickable:hover{background:var(--bg)}
+</style>
+</head>
+<body>
+
+<!-- ═══ TOP NAV ═══ -->
+<header class="topnav">
+  <div class="nav-logo">
+    <div class="lmark">IQ</div>
+    <span class="ltxt">Lease<span>IQ</span></span>
+  </div>
+  <nav class="nav-links">
+    <button class="nl active" onclick="navTo('portfolio')">Portfolio</button>
+    <button class="nl" onclick="navTo('upload')">Upload</button>
+    <button class="nl" onclick="navTo('alerts')">Risk Alerts <span style="background:var(--danger);color:#fff;font-size:10px;font-weight:700;padding:1px 5px;border-radius:99px;margin-left:3px">2</span></button>
+    <button class="nl" onclick="navTo('calendar')">Calendar</button>
+    <button class="nl" onclick="navTo('documents')">Documents</button>
+    <button class="nl" onclick="navTo('billing')">Billing</button>
+  </nav>
+  <div class="nav-right">
+    <div style="text-align:right">
+      <div class="co-name">Maple Grove Capital</div>
+      <div class="co-sub">Portfolio client</div>
+    </div>
+    <div class="avatar">MG</div>
+  </div>
+</header>
+
+<!-- ═══ PAGES ═══ -->
+
+<!-- ── PORTFOLIO ── -->
+<div id="page-portfolio" class="page active">
+  <div class="page-wrap">
+
+    <div class="welcome">
+      <div>
+        <div class="wb-title">Good morning, Sarah.</div>
+        <div class="wb-sub">You have 2 leases with alerts due this month. Your next expiry is in 47 days.</div>
+      </div>
+      <div style="display:flex;gap:12px">
+        <div class="alert-chip clickable" onclick="navTo('alerts')">
+          <div class="acn">2</div>
+          <div class="acl">Active Alerts</div>
+        </div>
+        <div class="alert-chip clickable" onclick="navTo('alerts')">
+          <div class="acn">47</div>
+          <div class="acl">Days to Next Action</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="sc">
+        <div class="scl">Active Leases</div>
+        <div class="scv">8</div>
+        <div class="scs">Across 6 properties</div>
+      </div>
+      <div class="sc clickable" onclick="navTo('alerts')">
+        <div class="scl">Urgent Alerts</div>
+        <div class="scv" style="color:var(--danger)">2</div>
+        <div class="scs">Action required this month</div>
+      </div>
+      <div class="sc">
+        <div class="scl">Next Expiry</div>
+        <div class="scv" style="font-size:18px;margin-top:4px">May 31, 2026</div>
+        <div class="scs">550 N Westfield Ave · Bluebird</div>
+      </div>
+    </div>
+
+    <div class="ph" style="margin-bottom:16px">
+      <div><h1>Your Leases</h1><p>4 of 8 leases shown, click View Details on any lease</p></div>
+      <button class="btn btn-p btn-sm" onclick="navTo('upload')">+ Add Lease</button>
+    </div>
+
+    <div class="lease-grid">
+
+      <!-- Card 1: green ~5yr -->
+      <div class="lease-card">
+        <div class="lc-body">
+          <div class="lc-addr">1402 Harbor Blvd, Suite 210</div>
+          <div class="lc-city">Long Beach, CA 90802</div>
+          <div class="lc-row"><span class="lc-lbl">Tenant</span><span class="lc-val">Harbor Sandwich RE LLC</span></div>
+          <div class="lc-row"><span class="lc-lbl">Lease Type</span><span class="bdg b-blue" style="font-size:10px">NNN</span></div>
+          <div class="lc-row"><span class="lc-lbl">Expiry</span><span class="lc-val">March 31, 2031</span></div>
+          <div class="status-bar-wrap">
+            <div class="status-bar-lbl"><span>Lease health</span><span style="color:var(--success);font-weight:600">4 yrs 11 mos remaining</span></div>
+            <div class="status-bar-bg"><div class="status-bar-fill" style="width:82%;background:var(--success)"></div></div>
+          </div>
+        </div>
+        <div class="lc-foot"><button class="btn btn-p btn-sm" onclick="viewStaticDetail('harbor')">View Details</button></div>
+      </div>
+
+      <!-- Card 2: amber ~19mo -->
+      <div class="lease-card">
+        <div class="lc-body">
+          <div class="lc-addr">88 Commerce Park Dr</div>
+          <div class="lc-city">Memphis, TN 38118</div>
+          <div class="lc-row"><span class="lc-lbl">Tenant</span><span class="lc-val">Northline Freight Systems</span></div>
+          <div class="lc-row"><span class="lc-lbl">Lease Type</span><span class="bdg b-gray" style="font-size:10px">Gross</span></div>
+          <div class="lc-row"><span class="lc-lbl">Expiry</span><span class="lc-val">November 30, 2027</span></div>
+          <div class="status-bar-wrap">
+            <div class="status-bar-lbl"><span>Lease health</span><span style="color:var(--warn);font-weight:600">19 mos remaining</span></div>
+            <div class="status-bar-bg"><div class="status-bar-fill" style="width:38%;background:var(--warn)"></div></div>
+          </div>
+        </div>
+        <div class="lc-foot"><button class="btn btn-p btn-sm" onclick="viewStaticDetail('commerce')">View Details</button></div>
+      </div>
+
+      <!-- Card 3: red ~2mo -->
+      <div class="lease-card">
+        <div class="lc-body">
+          <div class="lc-addr">550 N Westfield Ave, Unit 4</div>
+          <div class="lc-city">Chicago, IL 60601</div>
+          <div class="lc-row"><span class="lc-lbl">Tenant</span><span class="lc-val">Bluebird Coffee Co.</span></div>
+          <div class="lc-row"><span class="lc-lbl">Lease Type</span><span class="bdg b-blue" style="font-size:10px">NNN</span></div>
+          <div class="lc-row"><span class="lc-lbl">Expiry</span><span class="lc-val" style="color:var(--danger);font-weight:700">May 31, 2026</span></div>
+          <div class="status-bar-wrap">
+            <div class="status-bar-lbl"><span>Lease health</span><span style="color:var(--danger);font-weight:600">2 mos remaining, EXPIRING SOON</span></div>
+            <div class="status-bar-bg"><div class="status-bar-fill" style="width:6%;background:var(--danger)"></div></div>
+          </div>
+        </div>
+        <div class="lc-foot"><button class="btn btn-p btn-sm" onclick="viewStaticDetail('westfield')">View Details</button></div>
+      </div>
+
+      <!-- Card 4: green ~3yr -->
+      <div class="lease-card">
+        <div class="lc-body">
+          <div class="lc-addr">7200 Industrial Pkwy, Bldg C</div>
+          <div class="lc-city">Columbus, OH 43229</div>
+          <div class="lc-row"><span class="lc-lbl">Tenant</span><span class="lc-val">Meridian Logistics Inc.</span></div>
+          <div class="lc-row"><span class="lc-lbl">Lease Type</span><span class="bdg b-gray" style="font-size:10px">Gross</span></div>
+          <div class="lc-row"><span class="lc-lbl">Expiry</span><span class="lc-val">June 30, 2033</span></div>
+          <div class="status-bar-wrap">
+            <div class="status-bar-lbl"><span>Lease health</span><span style="color:var(--success);font-weight:600">7 yrs 2 mos remaining</span></div>
+            <div class="status-bar-bg"><div class="status-bar-fill" style="width:95%;background:var(--success)"></div></div>
+          </div>
+        </div>
+        <div class="lc-foot"><button class="btn btn-p btn-sm" onclick="viewStaticDetail('industrial')">View Details</button></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── LEASE DETAIL ── -->
+<div id="page-detail" class="page">
+  <div class="page-wrap" id="detail-wrap">
+    <!-- Populated dynamically by renderDetail() or shows hardcoded fallback -->
+  </div>
+</div>
+
+<!-- ── RISK ALERTS ── -->
+<div id="page-alerts" class="page">
+  <div class="page-wrap">
+    <div class="ph">
+      <div>
+        <h1>Active Alerts</h1>
+        <p>2 items require your attention</p>
+      </div>
+    </div>
+
+    <div id="alerts-static">
+    <div class="alert-card">
+      <div class="ac-top">
+        <div>
+          <div class="ac-title">Personal Guarantee Expiring</div>
+          <div class="ac-addr">1402 Harbor Blvd, Suite 210 &nbsp;·&nbsp; Long Beach, CA</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <span class="bdg b-red">HIGH PRIORITY</span>
+          <span style="font-size:12px;color:var(--text2)">274 days away</span>
+        </div>
+      </div>
+      <div class="ac-body">
+        The personal guarantee provided by Doctor's Associates Inc. (Harbor Sandwich's parent company) expires on <strong>December 31, 2026</strong>, over 4 years before your lease ends on March 31, 2031. Without a guarantee, you have limited recourse if the tenant defaults after that date.
+      </div>
+      <div class="ac-action">
+        <strong>Action required:</strong> Request a replacement or extended guarantee from the tenant before December 31, 2026. Your LeaseIQ analyst can draft a demand letter on your behalf.
+        <button class="btn btn-p btn-xs" style="margin-top:8px;display:block" onclick="showContactModal('Re: Personal Guarantee, 1402 Harbor Blvd')">Contact Analyst</button>
+      </div>
+    </div>
+
+    <div class="alert-card">
+      <div class="ac-top">
+        <div>
+          <div class="ac-title">Lease Expiring in 2 Months</div>
+          <div class="ac-addr">550 N Westfield Ave, Unit 4 &nbsp;·&nbsp; Chicago, IL</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <span class="bdg b-red">HIGH PRIORITY</span>
+          <span style="font-size:12px;color:var(--text2)">59 days away</span>
+        </div>
+      </div>
+      <div class="ac-body">
+        The Bluebird Coffee Co. lease at 550 N Westfield Ave expires on <strong>May 31, 2026</strong>. The renewal notice deadline has passed, if Bluebird has not yet served notice of renewal, the lease will expire and the space will become vacant.
+      </div>
+      <div class="ac-action">
+        <strong>Action required:</strong> Confirm renewal status with Bluebird in writing immediately. If no renewal, begin marketing the space.
+        <button class="btn btn-p btn-xs" style="margin-top:8px;display:block" onclick="showContactModal('Re: Lease Expiry, 550 N Westfield Ave')">Contact Analyst</button>
+      </div>
+    </div>
+    </div>
+    <div id="alerts-dynamic"></div>
+
+    <div style="margin-top:28px">
+      <div class="section-lbl" style="margin-bottom:0">Upcoming in the Next 12 Months</div>
+      <div class="tw" style="margin-top:12px">
+        <div class="upcoming-item clickable" onclick="viewStaticDetail('commerce')">
+          <div class="ui-left">
+            <div class="ui-title">Rent Escalation, 10%</div>
+            <div class="ui-sub">88 Commerce Park Dr · Northline Freight · Gross Lease</div>
+          </div>
+          <div class="ui-right">
+            <span class="ui-days">In 13 days</span>
+            <span class="bdg b-amber">MEDIUM</span>
+          </div>
+        </div>
+        <div class="upcoming-item clickable" onclick="viewStaticDetail('harbor')">
+          <div class="ui-left">
+            <div class="ui-title">CAM Reconciliation Due</div>
+            <div class="ui-sub">1402 Harbor Blvd · Harbor Sandwich RE · NNN</div>
+          </div>
+          <div class="ui-right">
+            <span class="ui-days">In 89 days</span>
+            <span class="bdg b-amber">MEDIUM</span>
+          </div>
+        </div>
+        <div class="upcoming-item clickable" onclick="viewStaticDetail('industrial')">
+          <div class="ui-left">
+            <div class="ui-title">Renewal Window Opens</div>
+            <div class="ui-sub">7200 Industrial Pkwy · Meridian Logistics · Gross</div>
+          </div>
+          <div class="ui-right">
+            <span class="ui-days">In 214 days</span>
+            <span class="bdg b-gray">LOW</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CALENDAR ── -->
+<div id="page-calendar" class="page">
+  <div class="page-wrap">
+    <div class="ph" style="margin-bottom:16px">
+      <div>
+        <h1>Calendar</h1>
+        <p>Key lease dates for your portfolio · April 2026</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="btn btn-s btn-sm" onclick="calPrev()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span id="cal-month-label" style="font-size:14px;font-weight:600;min-width:120px;text-align:center">April 2026</span>
+        <button class="btn btn-s btn-sm" onclick="calNext()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:16px;margin-bottom:14px;font-size:12px;color:var(--text2);align-items:center">
+      <div style="display:flex;align-items:center;gap:5px"><span class="cal-dot cal-dot-r"></span> Lease expiry</div>
+      <div style="display:flex;align-items:center;gap:5px"><span class="cal-dot cal-dot-a"></span> Renewal / notice deadline</div>
+    </div>
+
+    <div class="cal-grid" id="calGrid">
+      <div class="cal-dh">Sun</div><div class="cal-dh">Mon</div><div class="cal-dh">Tue</div>
+      <div class="cal-dh">Wed</div><div class="cal-dh">Thu</div><div class="cal-dh">Fri</div><div class="cal-dh">Sat</div>
+      <!-- cells rendered dynamically by renderCalendar() -->
+    </div>
+
+    <!-- tooltip -->
+    <div id="calTip" class="cal-tooltip">
+      <div class="cal-tt-title" id="tipTitle"></div>
+      <div class="cal-tt-addr" id="tipAddr"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── UPLOAD ── -->
+<div id="page-upload" class="page">
+  <div class="page-wrap">
+    <div class="ph">
+      <div>
+        <h1>Upload a Lease</h1>
+        <p>Submit a lease PDF, our AI extracts the key terms, then a LeaseIQ analyst reviews before it's added to your portfolio.</p>
+      </div>
+    </div>
+
+    <div class="dz" id="upl-dz" onclick="document.getElementById('upl-file').click()">
+      <svg class="dz-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      <div class="dz-ttl">Drop lease PDF here, or click to browse</div>
+      <div class="dz-sub">PDF only · up to 32 MB · native or scanned documents supported</div>
+      <div class="dz-file" id="upl-fname" style="display:none"></div>
+      <input type="file" id="upl-file" accept="application/pdf" style="display:none" onchange="fileChosen(this)">
+    </div>
+
+    <div class="upl-form">
+      <div class="fgrp">
+        <label class="flbl">Lease Name / Property Identifier</label>
+        <input type="text" class="finp" id="upl-label" placeholder="e.g., Harbor Blvd Suite 210, 2024 Renewal">
+      </div>
+      <div class="fgrp">
+        <label class="flbl">Property Address (for QA matching)</label>
+        <input type="text" class="finp" id="upl-addr" placeholder="e.g., 1402 Harbor Blvd, Long Beach, CA 90802">
+      </div>
+      <div style="display:flex;gap:8px;margin-top:18px">
+        <button class="btn btn-p" id="upl-btn" onclick="startUpload()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Submit for Abstraction
+        </button>
+        <button class="btn btn-s" onclick="resetUpload()">Cancel</button>
+      </div>
+    </div>
+
+    <div class="pw" id="upl-pw">
+      <div class="pstep" id="upl-step">Uploading PDF…</div>
+      <div class="pbbg"><div class="pbf" id="upl-pbf"></div></div>
+      <div class="ppct" id="upl-ppct">0%</div>
+    </div>
+
+    <div class="sb2" id="upl-sb">
+      <div class="sbt">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Submitted for expert QA review
+      </div>
+      <div class="sbs">Your lease is now with a LeaseIQ analyst. Typical turnaround is 1 business day. You'll see status updates on the Documents page.</div>
+      <div class="sb-actions">
+        <button class="btn btn-p btn-sm" onclick="navTo('documents')">View in Documents</button>
+        <button class="btn btn-s btn-sm" onclick="resetUpload()">Upload Another</button>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+      <div class="section-lbl" style="margin-bottom:12px">What gets extracted</div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.55;margin-bottom:10px">Our AI reads your lease and pulls 20 key fields, each with a citation to the exact clause in your document:</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px 18px;font-size:12px;color:var(--text2)">
+        <div>• Tenant &amp; Landlord</div><div>• Lease Type</div><div>• Premises SF</div>
+        <div>• Commencement / Expiration</div><div>• Base Rent &amp; Annual Rent</div><div>• Rent PSF</div>
+        <div>• Escalation Terms</div><div>• CAM Structure</div><div>• Security Deposit</div>
+        <div>• Permitted Use</div><div>• Assignment Rights</div><div>• Renewal Options</div>
+        <div>• Renewal Notice Deadline</div><div>• ROFO / ROFR</div><div>• Personal Guarantee</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DOCUMENTS ── -->
+<div id="page-documents" class="page">
+  <div class="page-wrap">
+    <div class="ph">
+      <div><h1>Documents</h1><p>Abstracted lease records for your portfolio</p></div>
+      <button class="btn btn-p btn-sm" onclick="navTo('upload')">+ Upload Lease</button>
+    </div>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Document Name</th><th>Lease / Property</th><th>Submitted</th><th>Status</th><th></th></tr></thead>
+        <tbody id="docs-tbody">
+          <tr>
+            <td class="tdp">Downtown Plaza Level 3, Lease.pdf</td>
+            <td>Pending QA match · Austin, TX</td>
+            <td>Apr 4, 2026</td>
+            <td><span class="bdg b-review">Under Review</span></td>
+            <td><span style="font-size:11px;color:var(--text2)">ETA: Apr 6, 2026</span></td>
+          </tr>
+          <tr>
+            <td class="tdp">Westfield Ave Unit 4, Abstract</td>
+            <td>Bluebird Coffee Co. · Chicago, IL</td>
+            <td>Apr 3, 2026</td>
+            <td><span class="bdg b-extract">AI Extracting</span></td>
+            <td><span style="font-size:11px;color:var(--text2)">ETA: Apr 5, 2026</span></td>
+          </tr>
+          <tr style="cursor:pointer" onclick="viewStaticDetail('harbor')">
+            <td class="tdp">Harbor Blvd Suite 210, Abstract</td>
+            <td>Harbor Sandwich RE LLC · Long Beach, CA</td>
+            <td>Apr 1, 2026</td>
+            <td><span class="bdg b-green">Complete</span></td>
+            <td><button class="btn btn-s btn-xs" onclick="event.stopPropagation();downloadAbstract('harbor')">Download Abstract (PDF)</button></td>
+          </tr>
+          <tr style="cursor:pointer" onclick="viewStaticDetail('commerce')">
+            <td class="tdp">Commerce Park Dr, Abstract</td>
+            <td>Northline Freight Systems · Memphis, TN</td>
+            <td>Mar 15, 2026</td>
+            <td><span class="bdg b-green">Complete</span></td>
+            <td><button class="btn btn-s btn-xs" onclick="event.stopPropagation();downloadAbstract('commerce')">Download Abstract (PDF)</button></td>
+          </tr>
+          <tr style="cursor:pointer" onclick="viewStaticDetail('industrial')">
+            <td class="tdp">Industrial Pkwy Bldg C, Abstract</td>
+            <td>Meridian Logistics Inc. · Columbus, OH</td>
+            <td>Feb 18, 2026</td>
+            <td><span class="bdg b-green">Complete</span></td>
+            <td><button class="btn btn-s btn-xs" onclick="event.stopPropagation();downloadAbstract('industrial')">Download Abstract (PDF)</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ── BILLING ── -->
+<div id="page-billing" class="page">
+  <div class="page-wrap">
+    <div class="ph"><div><h1>Billing</h1><p>Your subscription and payment history</p></div></div>
+
+    <div class="plan-card">
+      <div class="pc-left">
+        <div class="pc-badge">Current Plan</div>
+        <div class="pc-plan">Portfolio Intelligence</div>
+        <div class="pc-price">$1,200<span> / month</span></div>
+        <div class="pc-next">Next billing date: May 1, 2026 &nbsp;·&nbsp; Auto-renews monthly</div>
+      </div>
+      <div class="pc-features">
+        <div class="pc-feat">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Up to 10 lease abstractions / month
+        </div>
+        <div class="pc-feat">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Automated risk alerts &amp; calendar
+        </div>
+        <div class="pc-feat">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Dedicated analyst review (QA)
+        </div>
+        <div class="pc-feat">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Client portal access
+        </div>
+        <div style="margin-top:12px">
+          <button class="btn btn-s btn-sm" onclick="showContactModal('Billing Question')">Contact Us for Billing Questions</button>
+        </div>
+      </div>
+    </div>
+
+    <h2 style="font-size:15px;font-weight:700;margin-bottom:14px">Invoice History</h2>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Apr 1, 2026</td>
+            <td class="tdp">Portfolio Intelligence, April 2026</td>
+            <td style="font-weight:700">$1,200.00</td>
+            <td><span class="bdg b-paid">Paid</span></td>
+            <td><button class="btn btn-s btn-xs" onclick="downloadReceipt('April 2026','$1,200.00')">Receipt</button></td>
+          </tr>
+          <tr>
+            <td>Mar 1, 2026</td>
+            <td class="tdp">Portfolio Intelligence, March 2026</td>
+            <td style="font-weight:700">$1,200.00</td>
+            <td><span class="bdg b-paid">Paid</span></td>
+            <td><button class="btn btn-s btn-xs" onclick="downloadReceipt('March 2026','$1,200.00')">Receipt</button></td>
+          </tr>
+          <tr>
+            <td>Feb 1, 2026</td>
+            <td class="tdp">Portfolio Intelligence, February 2026</td>
+            <td style="font-weight:700">$1,200.00</td>
+            <td><span class="bdg b-paid">Paid</span></td>
+            <td><button class="btn btn-s btn-xs" onclick="downloadReceipt('February 2026','$1,200.00')">Receipt</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div id="toast" class="toast"></div>
+
+<!-- ── CONTACT MODAL ── -->
+<div id="contact-modal" class="modal-overlay" style="display:none">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3>Contact Your Analyst</h3>
+      <button class="modal-close" onclick="hideContactModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="fgrp"><label class="flbl">Your Name</label><input type="text" class="finp" id="contact-name" value="Sarah Chen"></div>
+      <div class="fgrp"><label class="flbl">Subject</label><input type="text" class="finp" id="contact-subject"></div>
+      <div class="fgrp"><label class="flbl">Message</label><textarea class="finp" id="contact-msg" rows="4" placeholder="Describe what you need help with..."></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-s" onclick="hideContactModal()">Cancel</button>
+      <button class="btn btn-p" onclick="sendContactForm()">Send Message</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API_BASE='';
+
+// ── LEASE_DATA: Static data for 4 hardcoded demo leases ──
+const LEASE_DATA = {
+  harbor: {
+    address:'1402 Harbor Blvd, Suite 210', city:'Long Beach, CA 90802',
+    tenant:'Harbor Sandwich RE LLC', landlord:'Maple Grove Holdings LP',
+    leaseType:'Triple Net (NNN)', propertyUse:'Quick Service Restaurant',
+    premisesSF:'1,450 SF', commencement:'April 1, 2021', expiration:'March 31, 2031',
+    remainingTerm:'4 yrs 11 mos',
+    baseRent:'$8,100 / mo', annualRent:'$97,200', rentPSF:'$67.03 / SF',
+    escalation:'10% every 5 years', camStructure:'Tenant pays pro-rata share',
+    securityDeposit:'$16,200 (2 months)',
+    permittedUse:'Harbor Sandwich franchise restaurant only',
+    assignment:'Permitted with landlord consent',
+    renewalOptions:'2 x 5-year options', renewalNotice:'Oct 4, 2030 (180 days prior)',
+    rofoRofr:'Right of First Offer', personalGuarantee:"Doctor's Associates Inc.",
+    abstractedDate:'April 1, 2026', status:'QA Approved',
+    risks:[
+      {title:'Personal Guarantee Expires Early',severity:'HIGH',body:"The personal guarantee from Doctor's Associates Inc. expires December 31, 2026, more than 4 years before the lease ends. No replacement guarantee is currently on file.",countdown:'274 days',countdownLabel:'until guarantee expiry',action:'Contact LeaseIQ to discuss remediation options'},
+      {title:'Renewal Notice Window',severity:'MEDIUM',body:'Tenant must send written renewal notice by October 4, 2030, 180 days before expiry. Missing this deadline forfeits both 5-year renewal options.',countdown:'1,647 days',countdownLabel:'until renewal notice deadline',action:'Send written notice to landlord by Oct 4, 2030'}
+    ]
+  },
+  commerce: {
+    address:'88 Commerce Park Dr', city:'Memphis, TN 38118',
+    tenant:'Northline Freight Systems', landlord:'Commerce Park Holdings LLC',
+    leaseType:'Gross', propertyUse:'Industrial (Distribution)',
+    premisesSF:'125,000 SF', commencement:'January 1, 2019', expiration:'November 30, 2027',
+    remainingTerm:'19 mos',
+    baseRent:'$14,500 / mo', annualRent:'$174,000', rentPSF:'$1.39 / SF',
+    escalation:'10% on each 5th anniversary', camStructure:'Included in gross rent',
+    securityDeposit:'$29,000 (2 months)',
+    permittedUse:'Warehouse and distribution operations',
+    assignment:'Freely assignable to Northline affiliates',
+    renewalOptions:'1 x 3-year option', renewalNotice:'120 days prior',
+    rofoRofr:'ROFR on adjacent units', personalGuarantee:'Northline Holdings Corp. (parent)',
+    abstractedDate:'March 15, 2026', status:'QA Approved',
+    risks:[
+      {title:'Rent Escalation Due April 15',severity:'MEDIUM',body:'A 10% rent escalation takes effect on April 15, 2026 per the 5th anniversary clause. Monthly base rent will increase from $14,500 to $15,950.',countdown:'9 days',countdownLabel:'until escalation',action:'Verify updated rent schedule with landlord and update accounting.'},
+      {title:'Lease Expiring in 19 Months',severity:'MEDIUM',body:'This lease expires November 30, 2027. The renewal notice window (120 days) opens in approximately 14 months. Begin planning renewal strategy.',countdown:'575 days',countdownLabel:'until expiry',action:'Schedule renewal discussion with Northline regional team within 6 months.'}
+    ]
+  },
+  westfield: {
+    address:'550 N Westfield Ave, Unit 4', city:'Chicago, IL 60601',
+    tenant:'Bluebird Coffee Co.', landlord:'Westfield Avenue Partners LP',
+    leaseType:'Triple Net (NNN)', propertyUse:'Retail (Coffee Shop)',
+    premisesSF:'2,100 SF', commencement:'June 1, 2016', expiration:'May 31, 2026',
+    remainingTerm:'2 mos',
+    baseRent:'$12,500 / mo', annualRent:'$150,000', rentPSF:'$71.43 / SF',
+    escalation:'3% annually', camStructure:'Pro-rata share, capped at $4/SF',
+    securityDeposit:'$25,000 (2 months)',
+    permittedUse:'Bluebird coffeehouse operations',
+    assignment:'Landlord consent required, not unreasonably withheld',
+    renewalOptions:'2 x 5-year options', renewalNotice:'180 days prior (EXPIRED)',
+    rofoRofr:'None', personalGuarantee:'None',
+    abstractedDate:'April 3, 2026', status:'QA Approved',
+    risks:[
+      {title:'Lease Expiring in 2 Months',severity:'HIGH',body:'This lease expires May 31, 2026. The 180-day renewal notice deadline has already passed. If Bluebird has not served notice, the lease will expire and the space becomes vacant.',countdown:'55 days',countdownLabel:'until expiry',action:'Confirm renewal status with Bluebird in writing immediately. If no renewal, begin marketing the space.'},
+      {title:'No Personal Guarantee',severity:'LOW',body:'No personal or corporate guarantee exists for this lease. Recovery in default is limited to the security deposit ($25,000).',countdown:null,countdownLabel:null,action:'Evaluate guarantee requirement for any renewal or new tenant.'}
+    ]
+  },
+  industrial: {
+    address:'7200 Industrial Pkwy, Bldg C', city:'Columbus, OH 43229',
+    tenant:'Meridian Logistics Inc.', landlord:'Midwest Industrial REIT',
+    leaseType:'Gross', propertyUse:'Industrial (Fulfillment Center)',
+    premisesSF:'250,000 SF', commencement:'July 1, 2023', expiration:'June 30, 2033',
+    remainingTerm:'7 yrs 2 mos',
+    baseRent:'$185,000 / mo', annualRent:'$2,220,000', rentPSF:'$8.88 / SF',
+    escalation:'2.5% annually', camStructure:'Included in gross rent',
+    securityDeposit:'$370,000 (2 months)',
+    permittedUse:'E-commerce fulfillment and last-mile distribution',
+    assignment:'Permitted to Meridian affiliates; third-party requires consent',
+    renewalOptions:'3 x 5-year options', renewalNotice:'270 days prior',
+    rofoRofr:'ROFO on adjacent parcels', personalGuarantee:'Meridian Group Inc. (parent)',
+    abstractedDate:'February 18, 2026', status:'QA Approved',
+    risks:[
+      {title:'Renewal Window Opens Soon',severity:'LOW',body:'The first renewal option can be exercised with 270 days notice before June 30, 2033. The earliest notice date is approximately October 2032, still over 6 years away. No immediate action required.',countdown:'2,382 days',countdownLabel:'until renewal notice deadline',action:'Add calendar reminder for Q3 2032 to begin renewal discussions.'}
+    ]
+  }
+};
+
+// ── TOAST ──
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('visible');
+  setTimeout(()=>t.classList.remove('visible'),3000);
+}
+
+// ── CONTACT MODAL ──
+function showContactModal(subject){
+  document.getElementById('contact-subject').value=subject||'';
+  document.getElementById('contact-msg').value='';
+  document.getElementById('contact-modal').style.display='flex';
+}
+function hideContactModal(){
+  document.getElementById('contact-modal').style.display='none';
+}
+function sendContactForm(){
+  const msg=document.getElementById('contact-msg').value.trim();
+  if(!msg){document.getElementById('contact-msg').focus();return;}
+  hideContactModal();
+  showToast('Message sent! Your analyst will respond within 1 business day.');
+}
+// Close modal on overlay click
+document.addEventListener('click',function(e){
+  if(e.target.id==='contact-modal')hideContactModal();
+});
+
+// ── PRINT VIEW ──
+function openPrintView(title,bodyHtml){
+  const w=window.open('','_blank');
+  if(!w){alert('Please allow popups to download documents.');return;}
+  w.document.write('<!DOCTYPE html><html><head><title>'+escapeHtml(title)+'</title>'
+    +'<style>'
+    +'body{font-family:system-ui,sans-serif;max-width:700px;margin:40px auto;color:#1A1A2E;font-size:13px;line-height:1.6}'
+    +'h1{font-size:20px;margin-bottom:4px}'
+    +'.subtitle{color:#6B7280;font-size:13px;margin-bottom:24px}'
+    +'table{width:100%;border-collapse:collapse;margin:16px 0}'
+    +'th,td{text-align:left;padding:8px 12px;border-bottom:1px solid #E2E4E9;font-size:13px}'
+    +'th{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#6B7280;font-weight:700}'
+    +'.section{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#6B7280;border-bottom:1px solid #E2E4E9;padding-bottom:6px;margin:24px 0 12px}'
+    +'.logo{font-weight:800;font-size:15px;color:#2E5FA3;margin-bottom:20px}'
+    +'.big{font-size:16px;font-weight:700;color:#2E5FA3}'
+    +'.risk{background:#FDEAEA;border:1px solid #f5b5b5;border-radius:6px;padding:10px 14px;margin:8px 0;font-size:12px}'
+    +'.risk b{color:#c03232}'
+    +'@media print{body{margin:20px}}'
+    +'</style></head><body>'+bodyHtml+'<a id="back-to-portfolio" href="../../index.html" style="position:fixed;z-index:99999;font:700 13px Arial,Helvetica,sans-serif;background:#3F2A5C;color:#fff;padding:9px 14px;border-radius:999px;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.25);right:18px;bottom:18px">&larr; Back to portfolio</a>
+</body></html>');
+  w.document.close();
+  setTimeout(()=>w.print(),300);
+}
+
+function downloadAbstract(leaseKey){
+  const l=LEASE_DATA[leaseKey];
+  if(!l)return;
+  const rows=[
+    ['Tenant',l.tenant],['Landlord',l.landlord],['Lease Type',l.leaseType],
+    ['Property Use',l.propertyUse],['Premises Area',l.premisesSF],
+    ['Commencement',l.commencement],['Expiration',l.expiration],['Remaining Term',l.remainingTerm],
+    ['Base Rent',l.baseRent],['Annual Rent',l.annualRent],['Rent PSF',l.rentPSF],
+    ['Escalation',l.escalation],['CAM Structure',l.camStructure],['Security Deposit',l.securityDeposit],
+    ['Permitted Use',l.permittedUse],['Assignment',l.assignment],
+    ['Renewal Options',l.renewalOptions],['Renewal Notice',l.renewalNotice],
+    ['ROFO / ROFR',l.rofoRofr],['Personal Guarantee',l.personalGuarantee]
+  ];
+  const tableRows=rows.map(r=>'<tr><td style="font-weight:600;color:#6B7280;width:160px">'+r[0]+'</td><td>'+escapeHtml(r[1])+'</td></tr>').join('');
+  const risksHtml=l.risks.map(r=>'<div class="risk"><b>'+escapeHtml(r.severity)+': '+escapeHtml(r.title)+'</b><br>'+escapeHtml(r.body)+'</div>').join('');
+  openPrintView('Lease Abstract, '+l.address,
+    '<div class="logo">LeaseIQ</div>'
+    +'<h1>Lease Abstract</h1>'
+    +'<div class="subtitle">'+escapeHtml(l.address)+' &middot; '+escapeHtml(l.city)+'<br>Prepared for Maple Grove Capital &middot; '+escapeHtml(l.abstractedDate)+'</div>'
+    +'<div class="section">Extracted Fields</div>'
+    +'<table>'+tableRows+'</table>'
+    +'<div class="section">Risk Alerts</div>'
+    +(risksHtml||'<p style="color:#6B7280">No risk alerts identified.</p>')
+    +'<div style="margin-top:32px;font-size:11px;color:#999">Generated by LeaseIQ &middot; '+new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})+'</div>'
+  );
+}
+
+function downloadReceipt(month,amount){
+  openPrintView('Receipt, '+month,
+    '<div class="logo">LeaseIQ</div>'
+    +'<h1>Payment Receipt</h1>'
+    +'<div class="subtitle">Maple Grove Capital</div>'
+    +'<table><tr><th>Description</th><th>Amount</th></tr>'
+    +'<tr><td>Portfolio Intelligence, '+escapeHtml(month)+'</td><td class="big">'+escapeHtml(amount)+'</td></tr></table>'
+    +'<table><tr><td style="color:#6B7280">Payment Method</td><td>Visa ending in 4242</td></tr>'
+    +'<tr><td style="color:#6B7280">Transaction ID</td><td>LIQ-'+Date.now().toString(36).toUpperCase()+'</td></tr>'
+    +'<tr><td style="color:#6B7280">Status</td><td style="color:#0c7a5a;font-weight:700">Paid</td></tr>'
+    +'<tr><td style="color:#6B7280">Date</td><td>'+escapeHtml(month)+' 1, 2026</td></tr></table>'
+    +'<div style="margin-top:32px;font-size:11px;color:#999">LeaseIQ Inc. &middot; 500 Howard St, San Francisco, CA 94105 &middot; billing@example.com</div>'
+  );
+}
+
+// ── STATIC DETAIL RENDERING ──
+let currentStaticLeaseKey=null;
+
+function viewStaticDetail(key){
+  currentStaticLeaseKey=key;
+  currentDetailJobId=null;
+  navTo('detail');
+}
+
+function renderStaticDetail(key){
+  const l=LEASE_DATA[key];
+  if(!l)return '<p>Lease not found.</p>';
+  const sev=s=>s==='HIGH'?'b-red':s==='MEDIUM'?'b-amber':'b-gray';
+  const risksHtml=l.risks.map(r=>{
+    const cd=r.countdown?'<div class="rc-countdown"><strong>'+r.countdown+'</strong> '+r.countdownLabel+'</div>':'';
+    return '<div class="risk-card"><div class="rc-top"><div class="rc-title">'+escapeHtml(r.title)+'</div><span class="bdg '+sev(r.severity)+'">'+r.severity+'</span></div><div class="rc-body">'+escapeHtml(r.body)+'</div>'+cd+'<div class="rc-action">'+escapeHtml(r.action)+'</div></div>';
+  }).join('');
+  return `
+    <div class="back-btn" onclick="navTo('portfolio')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Portfolio
+    </div>
+    <div class="ph"><div>
+      <h1>${escapeHtml(l.address)}</h1>
+      <p>${escapeHtml(l.city)} &nbsp;&middot;&nbsp; Abstracted ${escapeHtml(l.abstractedDate)} &nbsp;&middot;&nbsp; <span class="bdg b-green" style="font-size:11px;vertical-align:middle">${escapeHtml(l.status)}</span></p>
+    </div></div>
+    <div class="detail-grid">
+      <div class="card">
+        <div class="field-group"><div class="section-lbl">Lease Summary</div><div class="field-grid">
+          <div class="fi"><div class="fi-lbl">Tenant</div><div class="fi-val">${escapeHtml(l.tenant)}</div></div>
+          <div class="fi"><div class="fi-lbl">Landlord</div><div class="fi-val">${escapeHtml(l.landlord)}</div></div>
+          <div class="fi"><div class="fi-lbl">Lease Type</div><div class="fi-val">${escapeHtml(l.leaseType)}</div></div>
+          <div class="fi"><div class="fi-lbl">Property Use</div><div class="fi-val">${escapeHtml(l.propertyUse)}</div></div>
+          <div class="fi"><div class="fi-lbl">Premises Area</div><div class="fi-val">${escapeHtml(l.premisesSF)}</div></div>
+          <div class="fi"><div class="fi-lbl">Commencement</div><div class="fi-val">${escapeHtml(l.commencement)}</div></div>
+          <div class="fi"><div class="fi-lbl">Expiration</div><div class="fi-val">${escapeHtml(l.expiration)}</div></div>
+          <div class="fi"><div class="fi-lbl">Remaining Term</div><div class="fi-val">${escapeHtml(l.remainingTerm)}</div></div>
+        </div></div>
+        <div class="field-group"><div class="section-lbl">Financial Terms</div><div class="field-grid">
+          <div class="fi"><div class="fi-lbl">Base Rent</div><div class="fi-val big">${escapeHtml(l.baseRent)}</div></div>
+          <div class="fi"><div class="fi-lbl">Annual Rent</div><div class="fi-val big">${escapeHtml(l.annualRent)}</div></div>
+          <div class="fi"><div class="fi-lbl">Rent PSF</div><div class="fi-val">${escapeHtml(l.rentPSF)}</div></div>
+          <div class="fi"><div class="fi-lbl">Escalation</div><div class="fi-val">${escapeHtml(l.escalation)}</div></div>
+          <div class="fi"><div class="fi-lbl">CAM Structure</div><div class="fi-val">${escapeHtml(l.camStructure)}</div></div>
+          <div class="fi"><div class="fi-lbl">Security Deposit</div><div class="fi-val">${escapeHtml(l.securityDeposit)}</div></div>
+        </div></div>
+        <div class="field-group" style="margin-bottom:0"><div class="section-lbl">Key Provisions</div><div class="field-grid">
+          <div class="fi"><div class="fi-lbl">Permitted Use</div><div class="fi-val">${escapeHtml(l.permittedUse)}</div></div>
+          <div class="fi"><div class="fi-lbl">Assignment</div><div class="fi-val">${escapeHtml(l.assignment)}</div></div>
+          <div class="fi"><div class="fi-lbl">Renewal Options</div><div class="fi-val">${escapeHtml(l.renewalOptions)}</div></div>
+          <div class="fi"><div class="fi-lbl">Renewal Notice</div><div class="fi-val">${escapeHtml(l.renewalNotice)}</div></div>
+          <div class="fi"><div class="fi-lbl">ROFO / ROFR</div><div class="fi-val">${escapeHtml(l.rofoRofr)}</div></div>
+          <div class="fi"><div class="fi-lbl">Personal Guarantee</div><div class="fi-val">${escapeHtml(l.personalGuarantee)}</div></div>
+        </div></div>
+      </div>
+      <div>
+        <div class="section-lbl" style="margin-bottom:14px">Risk &amp; Alerts</div>
+        ${risksHtml||'<div class="card"><p style="font-size:13px;color:var(--text2)">No risk alerts identified.</p></div>'}
+        <div class="card" style="margin-top:16px"><div class="section-lbl" style="margin-bottom:12px">Need Help?</div><p style="font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:14px">Questions about this lease? Your LeaseIQ analyst is available to walk through any findings.</p><button class="btn btn-s" style="width:100%;justify-content:center" onclick="showContactModal('Re: ${escapeHtml(l.address)}')">Contact Your Analyst</button></div>
+      </div>
+    </div>`;
+}
+
+// ── DYNAMIC CALENDAR ──
+const CAL_MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+let calYear=2026,calMonth=3;
+const CAL_EVENTS={
+  '2026-3':{4:{tip:'Renewal Notice Deadline|550 N Westfield Ave, Bluebird',type:'a',label:'Notice Due'},15:{tip:'Rent Escalation (10%)|88 Commerce Park Dr, Northline',type:'a',label:'Rent Escalation'},21:{tip:'Lease Expiration|3301 Pacific Coast Hwy, Greenleaf Market',type:'r',label:'Expiry'}},
+  '2026-4':{31:{tip:'Lease Expiration|550 N Westfield Ave, Bluebird',type:'r',label:'Bluebird Expiry'}}
+};
+
+function renderCalendar(){
+  const label=document.getElementById('cal-month-label');
+  const grid=document.getElementById('calGrid');
+  if(!label||!grid)return;
+  label.textContent=CAL_MONTHS[calMonth]+' '+calYear;
+  const pageP=document.querySelector('#page-calendar .ph p');
+  if(pageP)pageP.textContent='Key lease dates for your portfolio \u00b7 '+CAL_MONTHS[calMonth]+' '+calYear;
+  // Keep headers
+  const headers=Array.from(grid.querySelectorAll('.cal-dh'));
+  grid.innerHTML='';
+  headers.forEach(h=>grid.appendChild(h));
+  const firstDay=new Date(calYear,calMonth,1).getDay();
+  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+  const today=new Date();
+  const events=CAL_EVENTS[calYear+'-'+calMonth]||{};
+  for(let i=0;i<firstDay;i++)grid.insertAdjacentHTML('beforeend','<div class="cal-cell cal-empty"></div>');
+  for(let d=1;d<=daysInMonth;d++){
+    const isToday=d===today.getDate()&&calMonth===today.getMonth()&&calYear===today.getFullYear();
+    const ev=events[d];
+    let h='<div class="cal-cell'+(ev?' has-event':'')+'"'+(ev?' data-tip="'+ev.tip+'" data-type="'+ev.type+'" onclick="showTip(this,event)"':'')+'>';
+    h+='<div class="cal-dn'+(isToday?' today':'')+'">'+d+(ev?' <span class="cal-dot cal-dot-'+ev.type+'"></span>':'')+'</div>';
+    if(ev)h+='<div class="cal-evt-label cal-evt-'+ev.type+'">'+ev.label+'</div>';
+    h+='</div>';
+    grid.insertAdjacentHTML('beforeend',h);
+  }
+  const total=firstDay+daysInMonth;
+  const rem=total%7;
+  if(rem>0)for(let i=0;i<7-rem;i++)grid.insertAdjacentHTML('beforeend','<div class="cal-cell cal-empty"></div>');
+}
+function calPrev(){calMonth--;if(calMonth<0){calMonth=11;calYear--;}renderCalendar();}
+function calNext(){calMonth++;if(calMonth>11){calMonth=0;calYear++;}renderCalendar();}
+
+const PAGES = {
+  portfolio: ['page-portfolio','Portfolio',0],
+  detail:    ['page-detail',   'Portfolio',0],
+  upload:    ['page-upload',   'Upload',1],
+  alerts:    ['page-alerts',   'Risk Alerts',2],
+  calendar:  ['page-calendar', 'Calendar',3],
+  documents: ['page-documents','Documents',4],
+  billing:   ['page-billing',  'Billing',5],
+};
+
+function navTo(k) {
+  if (!PAGES[k]) return;
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(PAGES[k][0]).classList.add('active');
+  document.querySelectorAll('.nl').forEach((el,i)=>el.classList.toggle('active',i===PAGES[k][2]));
+  if (typeof hideTip === 'function') hideTip();
+  window.scrollTo(0,0);
+  // Reset detail context when leaving the detail page
+  if (k !== 'detail') {
+    currentDetailJobId = null;
+  }
+  // Render detail page content when navigating to it
+  if (k === 'detail') {
+    renderDetail();
+  }
+}
+
+// ── DETAIL VIEW ──
+let currentDetailJobId=null;
+
+function viewDetail(jobId){
+  currentDetailJobId=jobId;
+  navTo('detail'); // navTo calls renderDetail() when k === 'detail'
+}
+
+function renderDetail(){
+  const wrap=document.getElementById('detail-wrap');
+  if(!wrap)return;
+
+  // Find job
+  const job=currentDetailJobId?liqLoad().find(j=>j.id===currentDetailJobId):null;
+
+  if(!job||!job.extraction){
+    // Render from static lease data
+    const key=currentStaticLeaseKey||'harbor';
+    wrap.innerHTML=renderStaticDetail(key);
+    return;
+  }
+
+  const f=job.extraction.fields;
+  const risks=job.extraction.risks||[];
+  const submitted=new Date(job.submittedAt).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+  const isApproved=job.status==='approved';
+  const statusBdg=isApproved
+    ?'<span class="bdg b-green" style="font-size:11px;vertical-align:middle">QA Approved</span>'
+    :'<span class="bdg b-proc" style="font-size:11px;vertical-align:middle">Pending QA</span>';
+
+  const fv=(key,cls)=>{
+    const d=f[key];
+    return d?escapeHtml(d.value):', ';
+  };
+
+  let risksHtml='';
+  if(risks.length){
+    risksHtml=risks.map(r=>{
+      const sev=r.severity==='HIGH'?'b-red':r.severity==='MEDIUM'?'b-amber':'b-gray';
+      const countdown=r.daysUntil?`<div class="rc-countdown"><strong>${r.daysUntil} days</strong> remaining</div>`:'';
+      return `<div class="risk-card">
+        <div class="rc-top"><div class="rc-title">${escapeHtml(r.title)}</div><span class="bdg ${sev}">${escapeHtml(r.severity)}</span></div>
+        <div class="rc-body">${escapeHtml(r.body)}</div>
+        ${countdown}
+        <div class="rc-action">${escapeHtml(r.action)}</div>
+      </div>`;
+    }).join('');
+  }else{
+    risksHtml='<div class="card"><p style="font-size:13px;color:var(--text2)">No risk alerts identified for this lease.</p></div>';
+  }
+
+  const addr=f.premisesSF?escapeHtml(job.address||job.label):escapeHtml(job.label);
+
+  wrap.innerHTML=`
+    <div class="back-btn" onclick="navTo('portfolio')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Portfolio
+    </div>
+    <div class="ph">
+      <div>
+        <h1>${escapeHtml(job.label||job.address)}</h1>
+        <p>Abstracted ${submitted} &nbsp;·&nbsp; ${statusBdg}</p>
+      </div>
+    </div>
+    <div class="detail-grid">
+      <div class="card">
+        <div class="field-group">
+          <div class="section-lbl">Lease Summary</div>
+          <div class="field-grid">
+            <div class="fi"><div class="fi-lbl">Tenant</div><div class="fi-val">${fv('tenant')}</div></div>
+            <div class="fi"><div class="fi-lbl">Landlord</div><div class="fi-val">${fv('landlord')}</div></div>
+            <div class="fi"><div class="fi-lbl">Lease Type</div><div class="fi-val">${fv('leaseType')}</div></div>
+            <div class="fi"><div class="fi-lbl">Property Use</div><div class="fi-val">${fv('propertyUse')}</div></div>
+            <div class="fi"><div class="fi-lbl">Premises Area</div><div class="fi-val">${fv('premisesSF')}</div></div>
+            <div class="fi"><div class="fi-lbl">Commencement</div><div class="fi-val">${fv('commencement')}</div></div>
+            <div class="fi"><div class="fi-lbl">Expiration</div><div class="fi-val">${fv('expiration')}</div></div>
+            <div class="fi"><div class="fi-lbl">Remaining Term</div><div class="fi-val">${fv('remainingTerm')}</div></div>
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="section-lbl">Financial Terms</div>
+          <div class="field-grid">
+            <div class="fi"><div class="fi-lbl">Base Rent</div><div class="fi-val big">${fv('baseRent')}</div></div>
+            <div class="fi"><div class="fi-lbl">Annual Rent</div><div class="fi-val big">${fv('annualRent')}</div></div>
+            <div class="fi"><div class="fi-lbl">Rent PSF</div><div class="fi-val">${fv('rentPSF')}</div></div>
+            <div class="fi"><div class="fi-lbl">Escalation</div><div class="fi-val">${fv('escalation')}</div></div>
+            <div class="fi"><div class="fi-lbl">CAM Structure</div><div class="fi-val">${fv('camStructure')}</div></div>
+            <div class="fi"><div class="fi-lbl">Security Deposit</div><div class="fi-val">${fv('securityDeposit')}</div></div>
+          </div>
+        </div>
+        <div class="field-group" style="margin-bottom:0">
+          <div class="section-lbl">Key Provisions</div>
+          <div class="field-grid">
+            <div class="fi"><div class="fi-lbl">Permitted Use</div><div class="fi-val">${fv('permittedUse')}</div></div>
+            <div class="fi"><div class="fi-lbl">Assignment</div><div class="fi-val">${fv('assignment')}</div></div>
+            <div class="fi"><div class="fi-lbl">Renewal Options</div><div class="fi-val">${fv('renewalOptions')}</div></div>
+            <div class="fi"><div class="fi-lbl">Renewal Notice</div><div class="fi-val">${fv('renewalNotice')}</div></div>
+            <div class="fi"><div class="fi-lbl">ROFO / ROFR</div><div class="fi-val">${fv('rofoRofr')}</div></div>
+            <div class="fi"><div class="fi-lbl">Personal Guarantee</div><div class="fi-val">${fv('personalGuarantee')}</div></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="section-lbl" style="margin-bottom:14px">Risk &amp; Alerts</div>
+        ${risksHtml}
+        <div class="card" style="margin-top:16px">
+          <div class="section-lbl" style="margin-bottom:12px">Need Help?</div>
+          <p style="font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:14px">Questions about this lease? Your LeaseIQ analyst is available to walk through any findings.</p>
+          <button class="btn btn-s" style="width:100%;justify-content:center" onclick="showContactModal('Re: ${escapeHtml(job.label||job.address)}')">Contact Your Analyst</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+// renderHardcodedDetail removed, replaced by renderStaticDetail(key) above
+
+// Calendar tooltip
+let tipTimeout;
+function showTip(el, e) {
+  const tip = document.getElementById('calTip');
+  const parts = el.dataset.tip.split('|');
+  document.getElementById('tipTitle').textContent = parts[0];
+  document.getElementById('tipAddr').textContent = parts[1] || '';
+  tip.style.left = (e.clientX + 12) + 'px';
+  tip.style.top  = (e.clientY - 10) + 'px';
+  tip.classList.add('visible');
+  clearTimeout(tipTimeout);
+  tipTimeout = setTimeout(hideTip, 3000);
+}
+function hideTip() {
+  document.getElementById('calTip').classList.remove('visible');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.has-event')) hideTip();
+});
+
+// ── SHARED JOB STORE ──
+const LIQ_KEY = 'leaseiq_jobs';
+function liqLoad() { try { return JSON.parse(localStorage.getItem(LIQ_KEY) || '[]'); } catch(e) { return []; } }
+function liqSave(jobs) { localStorage.setItem(LIQ_KEY, JSON.stringify(jobs)); }
+function liqAdd(job) { const a = liqLoad(); a.push(job); liqSave(a); return job; }
+function liqUpdate(id,patch){const a=liqLoad();const i=a.findIndex(x=>x.id===id);if(i>=0){a[i]={...a[i],...patch};liqSave(a)}}
+function liqId() { return 'j_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+
+// ── UPLOAD WITH REAL AI EXTRACTION ──
+let uplFile = null;
+function fileChosen(inp) {
+  const f = inp.files[0];
+  if (!f) return;
+  uplFile = f;
+  const fn = document.getElementById('upl-fname');
+  fn.textContent = '✓ ' + f.name + ' (' + (f.size/1024/1024).toFixed(1) + ' MB)';
+  fn.style.display = 'block';
+  if (!document.getElementById('upl-label').value) {
+    document.getElementById('upl-label').value = f.name.replace(/\.pdf$/i,'');
+  }
+}
+
+async function startUpload() {
+  if (!uplFile) { alert('Please choose a PDF file first.'); return; }
+  const btn = document.getElementById('upl-btn');
+  const pw = document.getElementById('upl-pw');
+  const sb = document.getElementById('upl-sb');
+  btn.disabled = true; btn.style.opacity = .5;
+  sb.classList.remove('active');
+  pw.classList.add('active');
+
+  const label = document.getElementById('upl-label').value || uplFile.name.replace(/\.pdf$/i,'');
+  const addr = document.getElementById('upl-addr').value || '';
+
+  // Animate progress during real extraction
+  document.getElementById('upl-step').textContent = 'Uploading PDF…';
+  document.getElementById('upl-pbf').style.width = '15%';
+  document.getElementById('upl-ppct').textContent = '15%';
+  const creep = setInterval(() => {
+    const w = parseFloat(document.getElementById('upl-pbf').style.width) || 15;
+    if (w < 80) {
+      const nw = w + Math.random() * 3;
+      document.getElementById('upl-pbf').style.width = nw + '%';
+      document.getElementById('upl-ppct').textContent = Math.round(nw) + '%';
+    }
+  }, 800);
+  setTimeout(() => { document.getElementById('upl-step').textContent = 'Extracting text from PDF…'; }, 1500);
+  setTimeout(() => { document.getElementById('upl-step').textContent = 'AI is reading your lease…'; }, 3500);
+
+  // Create job
+  const job = liqAdd({
+    id: liqId(), client: 'Maple Grove Capital', label, address: addr,
+    filename: uplFile.name, submittedAt: new Date().toISOString(),
+    status: 'extracting', approvedAt: null, extraction: null
+  });
+
+  // Add row to docs table immediately
+  addUploadToDocs(job);
+
+  try {
+    const form = new FormData();
+    form.append('file', uplFile);
+    form.append('client', 'Maple Grove Capital');
+    form.append('label', label);
+    const res = await fetch(API_BASE + '/api/extract', { method: 'POST', body: form });
+    const data = await res.json();
+    if (!res.ok || data.error) throw new Error(data.message || 'Extraction failed');
+
+    clearInterval(creep);
+    document.getElementById('upl-step').textContent = 'Finalizing extraction…';
+    document.getElementById('upl-pbf').style.width = '95%';
+    document.getElementById('upl-ppct').textContent = '95%';
+    await new Promise(r => setTimeout(r, 400));
+
+    // Update job with extraction
+    const extractedAddr = data.extraction.fields.tenant ? data.extraction.fields.tenant.value : label;
+    liqUpdate(job.id, { status: 'qa_pending', extraction: data.extraction, address: addr || extractedAddr });
+
+    document.getElementById('upl-pbf').style.width = '100%';
+    document.getElementById('upl-ppct').textContent = '100%';
+    document.getElementById('upl-pbf').style.background = 'var(--success)';
+    document.getElementById('upl-step').textContent = 'Submitted for expert QA review';
+    await new Promise(r => setTimeout(r, 600));
+    pw.classList.remove('active');
+    sb.classList.add('active');
+
+    // Update docs table row
+    liqSyncDocs();
+    renderDynamicAlerts();
+  } catch (err) {
+    clearInterval(creep);
+    pw.classList.remove('active');
+    liqUpdate(job.id, { status: 'error', qaNote: err.message });
+    alert('Extraction failed: ' + err.message);
+  } finally {
+    btn.disabled = false; btn.style.opacity = 1;
+  }
+}
+
+function addUploadToDocs(job) {
+  const tbody = document.getElementById('docs-tbody');
+  if (!tbody) return;
+  const today = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  const tr = document.createElement('tr');
+  tr.setAttribute('data-job-id', job.id);
+  tr.style.cursor = 'pointer';
+  tr.onclick = function(){ viewDetail(job.id); };
+  tr.innerHTML = '<td class="tdp">'+escapeHtml(job.label)+'</td>'
+               + '<td>'+escapeHtml(job.address||'Pending QA match')+'</td>'
+               + '<td>'+today+'</td>'
+               + '<td><span class="bdg b-extract">AI Extracting</span></td>'
+               + '<td><span style="font-size:11px;color:var(--text2)">Processing…</span></td>';
+  tbody.insertBefore(tr, tbody.firstChild);
+}
+
+// Sync dynamic job rows with status updates from ops.html
+function liqSyncDocs() {
+  const tbody = document.getElementById('docs-tbody');
+  if (!tbody) return;
+  const jobs = liqLoad();
+  jobs.forEach(j => {
+    let tr = tbody.querySelector('tr[data-job-id="'+j.id+'"]');
+    if (!tr) {
+      // Job exists in localStorage but not in DOM, add it
+      if (j.status !== 'error') {
+        const submitted = new Date(j.submittedAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+        tr = document.createElement('tr');
+        tr.setAttribute('data-job-id', j.id);
+        tr.style.cursor = 'pointer';
+        tr.onclick = function(){ viewDetail(j.id); };
+        tr.innerHTML = '<td class="tdp">'+escapeHtml(j.label)+'</td>'
+                     + '<td>'+escapeHtml(j.address||'')+'</td>'
+                     + '<td>'+submitted+'</td>'
+                     + '<td></td><td></td>';
+        tbody.insertBefore(tr, tbody.firstChild);
+      } else return;
+    }
+    const statusCell = tr.children[3];
+    const actionCell = tr.children[4];
+    if (j.status === 'approved') {
+      statusCell.innerHTML = '<span class="bdg b-green">Complete</span>';
+      actionCell.innerHTML = '<button class="btn btn-s btn-xs" onclick="viewDetail(\''+j.id+'\')">View Details</button>';
+      tr.onclick = function(){ viewDetail(j.id); };
+    } else if (j.status === 'qa_pending') {
+      statusCell.innerHTML = '<span class="bdg b-review">Under QA Review</span>';
+      actionCell.innerHTML = '<span style="font-size:11px;color:var(--text2)">Pending analyst review</span>';
+    } else if (j.status === 'needs_info') {
+      statusCell.innerHTML = '<span class="bdg b-needs">Needs Info</span>';
+      actionCell.innerHTML = '<span style="font-size:11px;color:var(--danger)">Ops requested clarification</span>';
+    } else if (j.status === 'extracting') {
+      statusCell.innerHTML = '<span class="bdg b-extract">AI Extracting</span>';
+      actionCell.innerHTML = '<span style="font-size:11px;color:var(--text2)">Processing…</span>';
+    }
+  });
+}
+
+// ── DYNAMIC RISK ALERTS ──
+function renderDynamicAlerts() {
+  const host = document.getElementById('alerts-dynamic');
+  if (!host) return;
+  const jobs = liqLoad().filter(j => j.status === 'approved' && j.extraction && j.extraction.risks);
+  host.innerHTML = '';
+  const allRisks = [];
+  jobs.forEach(j => {
+    j.extraction.risks.forEach(r => {
+      allRisks.push({ ...r, jobId: j.id, address: j.address || j.label });
+    });
+  });
+  // Sort: HIGH first, then by daysUntil ascending
+  const sevOrder = { HIGH: 0, MEDIUM: 1, LOW: 2 };
+  allRisks.sort((a, b) => (sevOrder[a.severity] || 2) - (sevOrder[b.severity] || 2) || (a.daysUntil || 9999) - (b.daysUntil || 9999));
+
+  allRisks.forEach(r => {
+    const sev = r.severity === 'HIGH' ? 'b-red' : r.severity === 'MEDIUM' ? 'b-amber' : 'b-gray';
+    const daysLabel = r.daysUntil ? r.daysUntil + ' days away' : '';
+    host.innerHTML += `
+      <div class="alert-card">
+        <div class="ac-top">
+          <div>
+            <div class="ac-title">${escapeHtml(r.title)}</div>
+            <div class="ac-addr">${escapeHtml(r.address)}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+            <span class="bdg ${sev}">${escapeHtml(r.severity)} PRIORITY</span>
+            ${daysLabel ? '<span style="font-size:12px;color:var(--text2)">' + daysLabel + '</span>' : ''}
+          </div>
+        </div>
+        <div class="ac-body">${escapeHtml(r.body)}</div>
+        <div class="ac-action"><strong>Action required:</strong> ${escapeHtml(r.action)}
+          <button class="btn btn-p btn-xs" style="margin-top:8px;display:block" onclick="showContactModal('Re: ${escapeHtml(r.title)}, ${escapeHtml(r.address)}')">Contact Analyst</button>
+        </div>
+      </div>`;
+  });
+
+  // Update alerts count in header
+  const alertsP = document.querySelector('#page-alerts .ph p');
+  const staticCount = document.querySelectorAll('#alerts-static .alert-card').length;
+  const total = staticCount + allRisks.length;
+  if (alertsP) alertsP.textContent = total + ' item' + (total !== 1 ? 's' : '') + ' require your attention';
+}
+
+window.addEventListener('storage', e => {
+  if (e.key === LIQ_KEY) { liqSyncDocs(); renderDynamicAlerts(); }
+});
+document.addEventListener('DOMContentLoaded', () => { liqSyncDocs(); renderDynamicAlerts(); renderCalendar(); });
+
+function resetUpload() {
+  uplFile = null;
+  document.getElementById('upl-file').value = '';
+  document.getElementById('upl-fname').style.display = 'none';
+  document.getElementById('upl-label').value = '';
+  document.getElementById('upl-addr').value = '';
+  document.getElementById('upl-pw').classList.remove('active');
+  document.getElementById('upl-sb').classList.remove('active');
+  document.getElementById('upl-pbf').style.width = '0';
+  document.getElementById('upl-pbf').style.background = 'var(--primary)';
+  document.getElementById('upl-ppct').textContent = '0%';
+  document.getElementById('upl-step').textContent = 'Uploading PDF…';
+  const btn = document.getElementById('upl-btn');
+  btn.disabled = false; btn.style.opacity = 1;
+}
+
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+// Dropzone drag & drop
+(function(){
+  const dz = document.getElementById('upl-dz');
+  if (!dz) return;
+  ['dragenter','dragover'].forEach(e => dz.addEventListener(e, ev => {ev.preventDefault(); dz.classList.add('drag');}));
+  ['dragleave','drop'].forEach(e => dz.addEventListener(e, ev => {ev.preventDefault(); dz.classList.remove('drag');}));
+  dz.addEventListener('drop', ev => {
+    const f = ev.dataTransfer.files[0];
+    if (f && f.type === 'application/pdf') {
+      document.getElementById('upl-file').files = ev.dataTransfer.files;
+      fileChosen(document.getElementById('upl-file'));
+    } else if (f) {
+      alert('Please drop a PDF file.');
+    }
+  });
+})();
+</script>
+</body>
+</html>

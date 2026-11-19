@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Floor plan to 3D walkthrough | Ryan Reale AI Tool Portfolio</title>
+<meta name="description" content="Ryan Reale AI Tool Portfolio: AI tools and automations for commercial real estate and finance workflows.">
+<meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand" href="../index.html">Ryan Reale <span>AI Tool Portfolio</span></a>
+<nav><a href="../index.html#projects">Projects</a><a href="../index.html#approach">Approach</a><a href="https://github.com/RSR71">GitHub</a></nav>
+</div></header>
+
+<div class="phead"><div class="wrap">
+<a class="back" href="../index.html#projects">&larr; All projects</a>
+<p class="eyebrow">November 2026</p>
+<h1>Floor plan to 3D walkthrough</h1>
+<p class="lead">A Python script traces a 2D floor plan into measured geometry, and a three.js viewer turns it into a furnished interior you can orbit or walk through in the browser.</p>
+<div class="btns"><a class="btn" href="../demos/condo-tour/index.html">Open the 3D walkthrough</a></div>
+<div class="tags"><span class="tag">three.js r147 with SSAO, FXAA and ACES tone mapping</span><span class="tag">Python (PIL, matplotlib) for plan tracing</span><span class="tag">Poly Haven CC0 textures, sky and furniture models</span><span class="tag">Orbit, first-person walk and touch controls</span></div>
+<div class="statband"><div><b>710</b><span>square feet, from a 2D builder plan</span></div><div><b>23</b><span>wall segments traced</span></div><div><b>9</b><span>rooms, 8 doors, 11 fixtures</span></div><div><b>0</b><span>installs needed: it runs in the browser</span></div></div>
+</div></div>
+<div class="wrap narrow"><div class="prose">
+<h2>The problem</h2>
+<p>A pre-construction floor plan and a handful of photos do not show how a unit feels to stand in. The goal was a 3D model accurate enough to plan furniture and show the space to someone remotely.</p>
+<h2>How it works</h2>
+<ol class="flow"><li>2D floor plan</li><li class="arr" aria-hidden="true">&rarr;</li><li>Trace and calibrate scale</li><li class="arr" aria-hidden="true">&rarr;</li><li>plan.json geometry</li><li class="arr" aria-hidden="true">&rarr;</li><li>three.js viewer</li><li class="arr" aria-hidden="true">&rarr;</li><li>Furnish and light</li></ol>
+<ul>
+<li><b>Scale from the plan's own dimensions.</b> The tracing script calibrates pixels per foot against the room dimensions written on the plan, then outputs every wall, door, window and fixture in feet.</li>
+<li><b>Honest about what is measured.</b> Each room is tagged as using a written dimension or a scaled one, and the ceiling height is recorded as assumed, not measured.</li>
+<li><b>Geometry as data.</b> The viewer reads one JSON file: 23 walls, 5 swing doors, 3 sliding doors, 11 fixtures and 9 rooms. Changing the plan regenerates the model.</li>
+<li><b>Furniture built in code.</b> Sofas, shelving, kitchen fittings and bathroom fixtures are modelled procedurally in JavaScript, with a few CC0 library models.</li>
+</ul>
+<div class="shots wide">
+<img src="../assets/img/condo/living_room_from_kitchen.jpg" alt="Rendered living room looking toward the balcony">
+<img src="../assets/img/condo/kitchen_from_window.jpg" alt="Rendered kitchen">
+<img src="../assets/img/condo/primary_bedroom.jpg" alt="Rendered primary bedroom">
+<img src="../assets/img/condo/main_bath.jpg" alt="Rendered main bathroom">
+</div>
+<p class="note">The walkthrough loads about 26 MB of textures and works best on a desktop browser. Use the mouse to orbit, or switch to walk mode and use the W, A, S and D keys.</p>
+</div></div>
+<div class="wrap narrow"><div class="pnav">
+<a href="statement-pipeline.html"><small>&larr; Previous</small><b>Bank statement to budget workbook</b></a>
+<a class="next" href="dictation.html"><small>Next &rarr;</small><b>Local voice dictation with tone rewrite</b></a>
+</div></div>
+
+<footer><div class="wrap"><span>Ryan Reale AI Tool Portfolio</span><span>Demo data is fictional. Names, addresses and figures from real engagements have been removed.</span></div></footer>
+<script>
+(function(){var els=document.querySelectorAll('.rise');if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+els.forEach(function(e,i){e.style.transitionDelay=(Math.min(i%4,3)*60)+'ms';io.observe(e)})})();
+</script>
+</body>
+</html>

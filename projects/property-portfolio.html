@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rental property portfolio dashboard | Ryan Reale AI Tool Portfolio</title>
+<meta name="description" content="Ryan Reale AI Tool Portfolio: AI tools and automations for commercial real estate and finance workflows.">
+<meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand" href="../index.html">Ryan Reale <span>AI Tool Portfolio</span></a>
+<nav><a href="../index.html#projects">Projects</a><a href="../index.html#approach">Approach</a><a href="https://github.com/RSR71">GitHub</a></nav>
+</div></header>
+
+<div class="phead"><div class="wrap">
+<a class="back" href="../index.html#projects">&larr; All projects</a>
+<p class="eyebrow">October 2026</p>
+<h1>Rental property portfolio dashboard</h1>
+<p class="lead">A monthly-refreshed dashboard that turns bank statements, purchase documents and comps research into an investor view of each property. The version here runs on fictional properties and figures.</p>
+<div class="btns"><a class="btn" href="../demos/property-portfolio/index.html">Open the dashboard demo</a></div>
+<div class="tags"><span class="tag">Python calculation engine</span><span class="tag">One self-contained HTML file</span><span class="tag">Plain JavaScript and inline SVG</span><span class="tag">CSV and YAML inputs</span></div>
+<div class="statband"><div><b>9</b><span>views, from overview to data quality</span></div><div><b>3</b><span>labels on every figure: actual, modelled, estimate</span></div><div><b>12</b><span>unit tests on the return calculations</span></div><div><b>0</b><span>chart libraries: charts are hand-written SVG</span></div></div>
+</div></div>
+<div class="wrap narrow"><div class="prose">
+<h2>The problem</h2>
+<p>A private client with a small rental portfolio, some units closed and some still under construction, had no single view of what each one was worth, what it earned and what needed attention. The facts were spread across bank statements, purchase agreements, leases and emails.</p>
+<h2>How it works</h2>
+<ol class="flow"><li>Reconciled transactions</li><li class="arr" aria-hidden="true">&rarr;</li><li>Property terms and documents</li><li class="arr" aria-hidden="true">&rarr;</li><li>Return calculations</li><li class="arr" aria-hidden="true">&rarr;</li><li>One HTML dashboard</li></ol>
+<ul>
+<li><b>Nothing modelled is passed off as actual.</b> Every number carries a badge: actual (from reconciled statements), modelled (from the property's configured terms) or estimate (from comps research). Charts hatch the modelled months.</li>
+<li><b>Returns broken into their sources.</b> Total profit is split into cash flow, principal paid down, change in value and closing costs, per property and for the portfolio.</li>
+<li><b>Handles every stage.</b> Closed and rented units, interim occupancy and pre-construction each get the right treatment, including a deposit schedule tracker for units not yet built.</li>
+<li><b>Correct mortgage maths.</b> Amortization uses Canadian semi-annual compounding, and annualized returns use XIRR on dated cash flows. Both are covered by unit tests.</li>
+<li><b>Alerts without colour coding.</b> Lease expiries, notice deadlines and renewals are ranked by stripe weight, glyph and wording, so the page reads the same for colour-blind users.</li>
+<li><b>Checked against a second model.</b> A separate Excel model with live formulas is generated from the same inputs, and a test confirms it matches the dashboard.</li>
+</ul>
+<figure class="wide"><img src="../assets/img/property-portfolio.png" alt="Portfolio dashboard overview with value, equity, cash flow tiles and an attention list"><figcaption>Overview tab, shown with fictional sample data.</figcaption></figure>
+<p class="note">All properties, people and figures in the demo are fictional and were generated for this site.</p>
+</div></div>
+<div class="wrap narrow"><div class="pnav">
+<a href="leaseiq.html"><small>&larr; Previous</small><b>LeaseIQ: AI lease abstraction</b></a>
+<a class="next" href="flyover.html"><small>Next &rarr;</small><b>Industrial site 3D fly-over</b></a>
+</div></div>
+
+<footer><div class="wrap"><span>Ryan Reale AI Tool Portfolio</span><span>Demo data is fictional. Names, addresses and figures from real engagements have been removed.</span></div></footer>
+<script>
+(function(){var els=document.querySelectorAll('.rise');if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+els.forEach(function(e,i){e.style.transitionDelay=(Math.min(i%4,3)*60)+'ms';io.observe(e)})})();
+</script>
+</body>
+</html>
